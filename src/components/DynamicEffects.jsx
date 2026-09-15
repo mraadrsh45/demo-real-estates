@@ -65,6 +65,27 @@ export default function DynamicEffects({ onOpenEmailDossier }) {
         }}
       />
 
+      {/* Subtle Global Brand Logo Watermark in Background */}
+      <div 
+        style={{
+          position: 'fixed',
+          top: '25%',
+          right: '-4%',
+          width: 'min(580px, 46vw)',
+          height: 'min(580px, 46vw)',
+          pointerEvents: 'none',
+          zIndex: 0,
+          opacity: 0.045,
+          filter: 'drop-shadow(0 0 50px rgba(197, 155, 39, 0.4))',
+        }}
+      >
+        <img 
+          src="/logo-watermark.png" 
+          alt="" 
+          style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+        />
+      </div>
+
       {/* Live Inquiry Activity Toast */}
       {showToast && (
         <div className="live-activity-toast">

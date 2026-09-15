@@ -408,3 +408,21 @@ h1, h2, h3, .font-serif {
 .neon-border-animated {
   animation: neonPulse 3.5s infinite ease-in-out;
 }
+
+/* Floating Golden Brand Logo Watermark Animation */
+@keyframes heroLogoFloat {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 0.13;
+  }
+  50% {
+    transform: translateY(-14px) scale(1.04);
+    opacity: 0.20;
+    filter: drop-shadow(0 0 60px rgba(223, 183, 67, 0.75));
+  }
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 0.13;
+  }
+}
+

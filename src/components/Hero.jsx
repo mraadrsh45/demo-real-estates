@@ -121,6 +121,35 @@ export default function Hero({ onSearch, onOpenEmailDossier }) {
         zIndex: 0
       }} />
 
+      {/* Majestic Brand Logo Emblem in Hero Background */}
+      <div 
+        style={{
+          position: 'absolute',
+          top: '42%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          width: 'min(580px, 88vw)',
+          height: 'min(580px, 88vw)',
+          pointerEvents: 'none',
+          zIndex: 0,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <img 
+          src="/logo-watermark.png" 
+          alt="Western Real Estates Logo Emblem"
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'contain',
+            filter: 'drop-shadow(0 0 45px rgba(223, 183, 67, 0.55))',
+            animation: 'heroLogoFloat 9s ease-in-out infinite alternate',
+          }}
+        />
+      </div>
+
       <div className="container" style={{ position: 'relative', zIndex: 2 }}>
         <div style={{ maxWidth: '980px', margin: '0 auto', textAlign: 'center' }}>
           
