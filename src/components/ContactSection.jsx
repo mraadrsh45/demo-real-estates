@@ -4,10 +4,6 @@ import {
   Mail, 
   MapPin, 
   Send, 
-  Clock, 
-  ShieldCheck, 
-  Sparkles, 
-  MessageSquare,
   CheckCircle2
 } from 'lucide-react';
 import confetti from 'canvas-confetti';

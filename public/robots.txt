@@ -1,0 +1,6 @@
+# Robots.txt for Western Real Estates
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://westernrealestates.com/sitemap.xml

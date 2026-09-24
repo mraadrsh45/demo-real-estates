@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <!-- Homepage & Core Advisory Showcase -->
+  <url>
+    <loc>https://westernrealestates.com/</loc>
+    <lastmod>2026-09-24</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://westernrealestates.com/logo.png</image:loc>
+      <image:title>Western Real Estates Official Brand Logo</image:title>
+      <image:caption>Premier Luxury Real Estate Advisory in Mohali</image:caption>
+    </image:image>
+  </url>
+
+  <!-- Luxury Properties Portfolio -->
+  <url>
+    <loc>https://westernrealestates.com/#properties</loc>
+    <lastmod>2026-09-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&amp;fit=crop&amp;w=1200&amp;q=80</image:loc>
+      <image:title>The Royal Crown Grand Villa - Sector 125 Mohali</image:title>
+      <image:caption>Ultra-Luxury 4BHK Spanish Architectural Villa with Private Terrace</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&amp;fit=crop&amp;w=1200&amp;q=80</image:loc>
+      <image:title>The Aurum Signature Floors - Sector 125 Sunny Enclave</image:title>
+      <image:caption>Premium Independent 3BHK Builder Floor with Private Lift</image:caption>
+    </image:image>
+  </url>
+
+  <!-- 3D Virtual Tour & Interactive Estate Showcase -->
+  <url>
+    <loc>https://westernrealestates.com/#3d-experience</loc>
+    <lastmod>2026-09-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Prime Sector 125 Location & Connectivity -->
+  <url>
+    <loc>https://westernrealestates.com/#location</loc>
+    <lastmod>2026-09-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Mortgage & Loan EMI Calculator -->
+  <url>
+    <loc>https://westernrealestates.com/#emi-calculator</loc>
+    <lastmod>2026-09-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Contact & Advisory Office -->
+  <url>
+    <loc>https://westernrealestates.com/#contact</loc>
+    <lastmod>2026-09-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+</urlset>

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import * as THREE from 'three';
 import { 
   Compass, 
@@ -9,8 +9,6 @@ import {
   Layers, 
   Eye, 
   Sparkles,
-  Info,
-  CheckCircle,
   ArrowRight
 } from 'lucide-react';
 
@@ -19,6 +17,11 @@ export default function PropertyViewer3D({ onOpenEmailDossier }) {
   const [activeTab, setActiveTab] = useState('3d-exterior'); // '3d-exterior' | '360-interior'
   const [isNightMode, setIsNightMode] = useState(false);
   const [isAutoRotating, setIsAutoRotating] = useState(true);
+  const isAutoRotatingRef = useRef(true);
+  useEffect(() => {
+    isAutoRotatingRef.current = isAutoRotating;
+  }, [isAutoRotating]);
+
   const [selectedHotspot, setSelectedHotspot] = useState(null);
   const [interiorRoom, setInteriorRoom] = useState('living'); // 'living' | 'master' | 'kitchen'
 
@@ -34,6 +37,16 @@ export default function PropertyViewer3D({ onOpenEmailDossier }) {
   const isDraggingRef = useRef(false);
   const previousMousePositionRef = useRef({ x: 0, y: 0 });
   const cameraAngleRef = useRef({ theta: 0.8, phi: 1.1, radius: 26 });
+
+  // Helper to position camera from spherical angles
+  const updateCameraPosition = useCallback(() => {
+    if (!cameraRef.current) return;
+    const { theta, phi, radius } = cameraAngleRef.current;
+    cameraRef.current.position.x = radius * Math.sin(phi) * Math.sin(theta);
+    cameraRef.current.position.y = radius * Math.cos(phi);
+    cameraRef.current.position.z = radius * Math.sin(phi) * Math.cos(theta);
+    cameraRef.current.lookAt(0, 4, 0);
+  }, []);
 
   // Hotspots definitions
   const hotspots = [
@@ -289,7 +302,7 @@ export default function PropertyViewer3D({ onOpenEmailDossier }) {
     const animate = () => {
       animationFrameIdRef.current = requestAnimationFrame(animate);
 
-      if (isAutoRotating) {
+      if (isAutoRotatingRef.current) {
         cameraAngleRef.current.theta += 0.0035;
         updateCameraPosition();
       }
@@ -330,17 +343,7 @@ export default function PropertyViewer3D({ onOpenEmailDossier }) {
         rendererRef.current.dispose();
       }
     };
-  }, [activeTab]);
-
-  // Helper to position camera from spherical angles
-  const updateCameraPosition = () => {
-    if (!cameraRef.current) return;
-    const { theta, phi, radius } = cameraAngleRef.current;
-    cameraRef.current.position.x = radius * Math.sin(phi) * Math.sin(theta);
-    cameraRef.current.position.y = radius * Math.cos(phi);
-    cameraRef.current.position.z = radius * Math.sin(phi) * Math.cos(theta);
-    cameraRef.current.lookAt(0, 4, 0);
-  };
+  }, [activeTab, updateCameraPosition, isNightMode]);
 
   // Mouse Interaction handlers for 3D Orbiting
   const handleMouseDown = (e) => {

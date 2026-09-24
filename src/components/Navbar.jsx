@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Phone, Mail, MapPin, Menu, X, Video, ShieldCheck, Play } from 'lucide-react';
+import { Phone, Mail, MapPin, Menu, X, Video, ShieldCheck, Compass, Heart } from 'lucide-react';
 import { companyDetails } from '../data/properties';
 
-export default function Navbar({ onOpenEmailDossier }) {
+export default function Navbar({ onOpenEmailDossier, favoritesCount = 0 }) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -123,17 +123,31 @@ export default function Navbar({ onOpenEmailDossier }) {
           </a>
 
           {/* Desktop Nav Links */}
-          <nav style={{ display: 'flex', alignItems: 'center', gap: '1.75rem' }} className="desktop-nav">
+          <nav style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }} className="desktop-nav">
             <a href="#properties" style={navLinkStyle}>Properties</a>
+            <a href="#3d-experience" style={navLinkStyle}>
+              <span style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', color: '#fae7a5' }}>
+                <Compass size={15} color="#edd06f" />
+                <span>3D Virtual Tour</span>
+              </span>
+            </a>
             <a href="#building-videos" style={navLinkStyle}>
-              <span style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', color: '#fae7a5' }}>
-                <Video size={16} color="#edd06f" />
-                <span>Live Building Videos (4K)</span>
+              <span style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+                <Video size={15} color="#edd06f" />
+                <span>Building Videos (4K)</span>
               </span>
             </a>
             <a href="#emi-calculator" style={navLinkStyle}>EMI Calculator</a>
             <a href="#location" style={navLinkStyle}>Location & Maps</a>
             <a href="#contact" style={navLinkStyle}>Contact Us</a>
+
+            {/* Wishlist Link if Favorites > 0 */}
+            {favoritesCount > 0 && (
+              <a href="#properties" style={{ ...navLinkStyle, color: '#f87171', display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+                <Heart size={14} fill="#ef4444" color="#ef4444" />
+                <span>Wishlist ({favoritesCount})</span>
+              </a>
+            )}
           </nav>
 
           {/* Action CTAs */}
@@ -189,11 +203,18 @@ export default function Navbar({ onOpenEmailDossier }) {
             gap: '1.1rem'
           }}>
             <a href="#properties" onClick={() => setMobileMenuOpen(false)} style={mobileLinkStyle}>Curated Properties</a>
+            <a href="#3d-experience" onClick={() => setMobileMenuOpen(false)} style={mobileLinkStyle}>Interactive 3D Virtual Tour</a>
             <a href="#building-videos" onClick={() => setMobileMenuOpen(false)} style={mobileLinkStyle}>Live Building Videos (4K)</a>
             <a href="#emi-calculator" onClick={() => setMobileMenuOpen(false)} style={mobileLinkStyle}>Mortgage & EMI Calculator</a>
             <a href="#location" onClick={() => setMobileMenuOpen(false)} style={mobileLinkStyle}>Office Location (Sector 125)</a>
             <a href="#contact" onClick={() => setMobileMenuOpen(false)} style={mobileLinkStyle}>Contact Advisory</a>
             
+            {favoritesCount > 0 && (
+              <a href="#properties" onClick={() => setMobileMenuOpen(false)} style={{ ...mobileLinkStyle, color: '#f87171' }}>
+                Saved Wishlist ({favoritesCount})
+              </a>
+            )}
+
             <div style={{ paddingTop: '0.75rem', borderTop: '1px solid rgba(255,255,255,0.1)', display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
               <button 
                 onClick={() => { setMobileMenuOpen(false); onOpenEmailDossier(null); }}
@@ -225,7 +246,7 @@ export default function Navbar({ onOpenEmailDossier }) {
 const navLinkStyle = {
   color: '#e2e8f0',
   textDecoration: 'none',
-  fontSize: '0.92rem',
+  fontSize: '0.9rem',
   fontWeight: '500',
   letterSpacing: '0.01em',
   transition: 'all 0.25s ease',

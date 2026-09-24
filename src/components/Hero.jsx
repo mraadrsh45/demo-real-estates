@@ -1,18 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { 
-  Building, 
-  MapPin, 
-  ShieldCheck, 
   Search, 
   ArrowRight, 
-  Video, 
   Mail, 
-  CheckCircle2, 
   Sparkles,
-  Phone,
   Play
 } from 'lucide-react';
-import { companyDetails } from '../data/properties';
 
 export default function Hero({ onSearch, onOpenEmailDossier }) {
   const [propertyType, setPropertyType] = useState('All');

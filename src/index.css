@@ -426,3 +426,156 @@ h1, h2, h3, .font-serif {
   }
 }
 
+/* Custom Gold Luxury Range Slider */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  background: rgba(35, 76, 133, 0.4);
+  border-radius: 9999px;
+  outline: none;
+  transition: background 0.3s;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--gold-gradient);
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(197, 155, 39, 0.6);
+  border: 2px solid #ffffff;
+  transition: transform 0.15s ease;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.25);
+  box-shadow: 0 0 16px rgba(250, 231, 165, 0.9);
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--gold-gradient);
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(197, 155, 39, 0.6);
+  border: 2px solid #ffffff;
+}
+
+/* Floating Compare Dock */
+.compare-dock {
+  position: fixed;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(7, 19, 36, 0.96);
+  border: 1px solid var(--gold-400);
+  border-radius: 100px;
+  padding: 0.65rem 1.4rem;
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.85), 0 0 30px rgba(197, 155, 39, 0.35);
+  backdrop-filter: blur(20px);
+  z-index: 95;
+  animation: dockSlideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  max-width: 90vw;
+}
+
+@keyframes dockSlideUp {
+  from {
+    transform: translate(-50%, 100%);
+    opacity: 0;
+  }
+  to {
+    transform: translate(-50%, 0);
+    opacity: 1;
+  }
+}
+
+/* Wishlist Button Micro-interaction */
+.btn-wishlist {
+  background: rgba(7, 19, 36, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  backdrop-filter: blur(8px);
+}
+
+.btn-wishlist:hover {
+  transform: scale(1.15);
+  border-color: #ef4444;
+}
+
+.btn-wishlist.active {
+  background: rgba(239, 68, 68, 0.2);
+  border-color: #ef4444;
+  color: #ef4444;
+}
+
+/* List View Row for Properties */
+.property-list-card {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  background: var(--card-gradient);
+  border: 1px solid var(--border-navy);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  transition: var(--transition);
+}
+
+.property-list-card:hover {
+  border-color: var(--border-gold-bright);
+  box-shadow: var(--shadow-gold-lg);
+  transform: translateY(-4px);
+}
+
+@media (max-width: 820px) {
+  .property-list-card {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Tab Navigation Buttons */
+.tab-pill {
+  padding: 0.55rem 1.15rem;
+  border-radius: var(--radius-full);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  border: 1px solid transparent;
+  background: transparent;
+  color: #cbd5e1;
+}
+
+.tab-pill:hover {
+  color: #ffffff;
+  background: rgba(197, 155, 39, 0.1);
+}
+
+.tab-pill.active {
+  background: var(--gold-gradient);
+  color: var(--navy-950);
+  box-shadow: 0 4px 15px rgba(197, 155, 39, 0.4);
+}
+
+/* Donut Chart Animation */
+.donut-circle {
+  transition: stroke-dashoffset 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: rotate(-90deg);
+  transform-origin: 50% 50%;
+}
+
+

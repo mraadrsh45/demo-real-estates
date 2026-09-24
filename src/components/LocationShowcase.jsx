@@ -1,18 +1,26 @@
-import React from 'react';
-import { MapPin, Navigation, Compass, ExternalLink, Clock, Building, ShieldCheck } from 'lucide-react';
+import React, { useState } from 'react';
+import { MapPin, Navigation, ExternalLink, Clock, Building, ShieldCheck } from 'lucide-react';
 import { companyDetails } from '../data/properties';
 
 export default function LocationShowcase() {
+  const [activeCategory, setActiveCategory] = useState('All');
+
+  const landmarkCategories = ['All', 'Shopping', 'Healthcare', 'Transit', 'Education & IT'];
+
   const landmarks = [
-    { name: "VR Punjab Mega Mall", distance: "4 Mins", icon: "🛍️" },
-    { name: "Max Super Speciality Hospital", distance: "8 Mins", icon: "🏥" },
-    { name: "National Highway 21 (PR-7 Corridor)", distance: "2 Mins", icon: "🛣️" },
-    { name: "Chandigarh Sector 43 ISBT", distance: "14 Mins", icon: "🚌" },
-    { name: "Shaheed Bhagat Singh Int'l Airport", distance: "20 Mins", icon: "✈️" },
-    { name: "IT City & Infosys Mohali", distance: "18 Mins", icon: "🏢" },
-    { name: "DPS & Rayat Bahra University Belt", distance: "6 Mins", icon: "🎓" },
-    { name: "Fortis Hospital Mohali", distance: "12 Mins", icon: "🚑" }
+    { name: "VR Punjab Mega Mall", distance: "4 Mins", icon: "🛍️", category: "Shopping" },
+    { name: "Max Super Speciality Hospital", distance: "8 Mins", icon: "🏥", category: "Healthcare" },
+    { name: "National Highway 21 (PR-7 Corridor)", distance: "2 Mins", icon: "🛣️", category: "Transit" },
+    { name: "Chandigarh Sector 43 ISBT", distance: "14 Mins", icon: "🚌", category: "Transit" },
+    { name: "Shaheed Bhagat Singh Int'l Airport", distance: "20 Mins", icon: "✈️", category: "Transit" },
+    { name: "IT City & Infosys Mohali", distance: "18 Mins", icon: "🏢", category: "Education & IT" },
+    { name: "DPS & Rayat Bahra University Belt", distance: "6 Mins", icon: "🎓", category: "Education & IT" },
+    { name: "Fortis Hospital Mohali", distance: "12 Mins", icon: "🚑", category: "Healthcare" }
   ];
+
+  const filteredLandmarks = activeCategory === 'All' 
+    ? landmarks 
+    : landmarks.filter(l => l.category === activeCategory);
 
   return (
     <section id="location" className="section-padding" style={{
@@ -25,7 +33,7 @@ export default function LocationShowcase() {
         <div style={{ textAlign: 'center', maxWidth: '820px', margin: '0 auto 3rem' }}>
           <div className="badge-gold" style={{ marginBottom: '1rem' }}>
             <MapPin size={14} />
-            <span>Strategic Strategic Tricity Location</span>
+            <span>Strategic Tricity Location</span>
           </div>
           <h2 style={{
             fontSize: 'clamp(2rem, 4vw, 3.2rem)',
@@ -163,36 +171,60 @@ export default function LocationShowcase() {
                 boxShadow: '0 8px 20px rgba(0,0,0,0.5)'
               }}
             >
-              <span>Get Precise Turn-by-Turn GPS</span>
+              <span>Get Turn-by-Turn GPS</span>
               <ExternalLink size={13} />
             </a>
           </div>
 
         </div>
 
-        {/* Connectivity / Proximity Highlights Matrix */}
+        {/* Connectivity / Proximity Highlights Matrix with Filter Tabs */}
         <div style={{
           background: 'rgba(11, 28, 54, 0.5)',
           border: '1px solid rgba(197, 155, 39, 0.25)',
           borderRadius: '16px',
           padding: '2rem'
         }}>
-          <h4 style={{
-            color: '#fae7a5',
-            fontSize: '1.15rem',
-            fontFamily: 'var(--font-serif)',
-            marginBottom: '1.25rem',
-            textAlign: 'center'
-          }}>
-            Sector 125 Sunny Enclave • Proximity & Driving Times
-          </h4>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem', marginBottom: '1.5rem' }}>
+            <h4 style={{
+              color: '#fae7a5',
+              fontSize: '1.2rem',
+              fontFamily: 'var(--font-serif)',
+              margin: 0
+            }}>
+              Sector 125 Sunny Enclave • Proximity & Driving Times
+            </h4>
+
+            {/* Category Filter Pills */}
+            <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap' }}>
+              {landmarkCategories.map(cat => (
+                <button
+                  key={cat}
+                  onClick={() => setActiveCategory(cat)}
+                  style={{
+                    background: activeCategory === cat ? 'var(--gold-gradient)' : 'rgba(7, 19, 36, 0.7)',
+                    color: activeCategory === cat ? '#071324' : '#cbd5e1',
+                    border: activeCategory === cat ? 'none' : '1px solid rgba(197, 155, 39, 0.25)',
+                    padding: '4px 12px',
+                    borderRadius: '20px',
+                    fontSize: '0.78rem',
+                    fontWeight: '600',
+                    cursor: 'pointer',
+                    transition: 'all 0.2s ease'
+                  }}
+                >
+                  {cat}
+                </button>
+              ))}
+            </div>
+          </div>
 
           <div style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
             gap: '1rem'
           }}>
-            {landmarks.map((item, idx) => (
+            {filteredLandmarks.map((item, idx) => (
               <div 
                 key={idx}
                 style={{

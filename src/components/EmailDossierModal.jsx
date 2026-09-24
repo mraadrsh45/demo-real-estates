@@ -5,13 +5,8 @@ import {
   Send, 
   Copy, 
   Check, 
-  Sparkles, 
-  FileText, 
-  Building2, 
-  MapPin, 
-  Phone,
-  Calendar,
-  Download
+  FileText,
+  Download 
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { properties, companyDetails } from '../data/properties';
@@ -90,9 +85,10 @@ export default function EmailDossierModal({ initialProperty, onClose }) {
     );
     const body = encodeURIComponent(generateDossierText());
     
-    // Direct pre-filled mailto
     const mailtoUrl = `mailto:${companyDetails.email}?cc=${encodeURIComponent(clientEmail)}&subject=${subject}&body=${body}`;
-    window.location.href = mailtoUrl;
+    const a = document.createElement('a');
+    a.href = mailtoUrl;
+    a.click();
 
     triggerSuccess();
   };

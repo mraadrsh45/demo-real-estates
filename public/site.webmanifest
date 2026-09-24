@@ -1,0 +1,21 @@
+{
+  "name": "Western Real Estates | Luxury Properties Mohali",
+  "short_name": "Western Estates",
+  "description": "Premier luxury real estate advisory in Sunny Enclave, Sector 125, SAS Nagar Mohali. Luxury villas, builder floors, and 3D tours.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#040b15",
+  "theme_color": "#071324",
+  "icons": [
+    {
+      "src": "/logo.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/logo.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

@@ -1,19 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { 
   Play, 
-  Video, 
   Sparkles, 
-  Compass, 
   Layers, 
   MapPin, 
   ShieldCheck, 
   Mail, 
   Phone, 
-  ArrowRight, 
-  FileText, 
-  Maximize2,
-  CheckCircle2,
-  Clock
+  CheckCircle2, 
+  Clock 
 } from 'lucide-react';
 import { companyDetails } from '../data/properties';
 

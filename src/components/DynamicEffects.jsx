@@ -1,28 +1,28 @@
 import React, { useState, useEffect } from 'react';
-import { Sparkles, MapPin, Mail, CheckCircle2, X } from 'lucide-react';
+import { Sparkles, Mail, CheckCircle2, X } from 'lucide-react';
+
+const activities = [
+  {
+    icon: <Mail size={16} color="#c59b27" />,
+    text: "Client requested Dossier for 4BHK Royal Villa",
+    sub: "Sunny Enclave, Sector 125 Mohali • 2 mins ago"
+  },
+  {
+    icon: <CheckCircle2 size={16} color="#22c55e" />,
+    text: "Site Visit Scheduled: The Aurum Signature Floors",
+    sub: "Sector 125 SAS Nagar • 7 mins ago"
+  },
+  {
+    icon: <Sparkles size={16} color="#c59b27" />,
+    text: "New 4K Drone Architectural Walkthrough Live",
+    sub: "Skyline Imperial Penthouse • Just now"
+  }
+];
 
 export default function DynamicEffects({ onOpenEmailDossier }) {
   const [cursorPos, setCursorPos] = useState({ x: -300, y: -300 });
   const [currentToastIndex, setCurrentToastIndex] = useState(0);
   const [showToast, setShowToast] = useState(false);
-
-  const activities = [
-    {
-      icon: <Mail size={16} color="#c59b27" />,
-      text: "Client requested Dossier for 4BHK Royal Villa",
-      sub: "Sunny Enclave, Sector 125 Mohali • 2 mins ago"
-    },
-    {
-      icon: <CheckCircle2 size={16} color="#22c55e" />,
-      text: "Site Visit Scheduled: The Aurum Signature Floors",
-      sub: "Sector 125 SAS Nagar • 7 mins ago"
-    },
-    {
-      icon: <Sparkles size={16} color="#c59b27" />,
-      text: "New 4K Drone Architectural Walkthrough Live",
-      sub: "Skyline Imperial Penthouse • Just now"
-    }
-  ];
 
   // Mouse Spotlight Tracker
   useEffect(() => {
@@ -88,7 +88,12 @@ export default function DynamicEffects({ onOpenEmailDossier }) {
 
       {/* Live Inquiry Activity Toast */}
       {showToast && (
-        <div className="live-activity-toast">
+        <div 
+          className="live-activity-toast"
+          onClick={() => onOpenEmailDossier && onOpenEmailDossier(null)}
+          style={{ cursor: 'pointer' }}
+          title="Click to request verified property dossier"
+        >
           <div style={{
             width: '36px',
             height: '36px',
@@ -113,7 +118,10 @@ export default function DynamicEffects({ onOpenEmailDossier }) {
           </div>
 
           <button
-            onClick={() => setShowToast(false)}
+            onClick={(e) => {
+              e.stopPropagation();
+              setShowToast(false);
+            }}
             style={{
               background: 'none',
               border: 'none',
@@ -123,6 +131,7 @@ export default function DynamicEffects({ onOpenEmailDossier }) {
               display: 'flex',
               alignItems: 'center'
             }}
+            title="Dismiss"
           >
             <X size={14} />
           </button>

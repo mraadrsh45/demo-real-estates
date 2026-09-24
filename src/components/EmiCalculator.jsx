@@ -1,12 +1,19 @@
 import React, { useState, useMemo } from 'react';
-import { Calculator, CheckCircle2, Phone, ShieldCheck, ArrowRight } from 'lucide-react';
-import { companyDetails } from '../data/properties';
+import { Calculator, ArrowRight } from 'lucide-react';
 
 export default function EmiCalculator({ onOpenEmailDossier }) {
   const [propertyPrice, setPropertyPrice] = useState(12000000); // 1.20 Cr
   const [downPaymentPercent, setDownPaymentPercent] = useState(20); // 20%
   const [interestRate, setInterestRate] = useState(8.5); // 8.5%
   const [tenureYears, setTenureYears] = useState(20); // 20 years
+
+  // Bank partner benchmark rates in Tricity
+  const bankOptions = [
+    { name: "SBI Home Loan", rate: 8.50, badge: "Lowest Rate" },
+    { name: "HDFC Bank", rate: 8.70, badge: "Instant Approval" },
+    { name: "ICICI Bank", rate: 8.75, badge: "Pre-Approved" },
+    { name: "Axis Bank", rate: 8.85, badge: "Flexible Tenure" }
+  ];
 
   const calculation = useMemo(() => {
     const downPayment = (propertyPrice * downPaymentPercent) / 100;
@@ -18,14 +25,17 @@ export default function EmiCalculator({ onOpenEmailDossier }) {
     const totalPayment = emi * months;
     const totalInterest = totalPayment - loanAmount;
 
+    const principalPercent = Math.round((loanAmount / totalPayment) * 100);
+    const interestPercent = 100 - principalPercent;
+
     return {
       downPayment,
       loanAmount,
       monthlyEmi: Math.round(emi),
       totalInterest: Math.round(totalInterest),
       totalPayment: Math.round(totalPayment),
-      principalPercent: Math.round((loanAmount / totalPayment) * 100),
-      interestPercent: Math.round((totalInterest / totalPayment) * 100)
+      principalPercent,
+      interestPercent
     };
   }, [propertyPrice, downPaymentPercent, interestRate, tenureYears]);
 
@@ -37,6 +47,11 @@ export default function EmiCalculator({ onOpenEmailDossier }) {
     }
     return `₹ ${val.toLocaleString('en-IN')}`;
   };
+
+  // SVG Donut metrics
+  const radius = 60;
+  const circumference = 2 * Math.PI * radius;
+  const principalStroke = (calculation.principalPercent / 100) * circumference;
 
   return (
     <section id="emi-calculator" className="section-padding" style={{
@@ -92,7 +107,7 @@ export default function EmiCalculator({ onOpenEmailDossier }) {
                 onChange={(e) => setPropertyPrice(Number(e.target.value))}
                 style={sliderStyle}
               />
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.72rem', color: '#94a3b8', marginTop: '0.25rem' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem', color: '#94a3b8', marginTop: '0.35rem' }}>
                 <span>₹ 30 Lakhs</span>
                 <span>₹ 4.00 Crores</span>
               </div>
@@ -113,9 +128,26 @@ export default function EmiCalculator({ onOpenEmailDossier }) {
                 onChange={(e) => setDownPaymentPercent(Number(e.target.value))}
                 style={sliderStyle}
               />
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.72rem', color: '#94a3b8', marginTop: '0.25rem' }}>
-                <span>10% (Min)</span>
-                <span>50%</span>
+              <div style={{ display: 'flex', gap: '0.5rem', marginTop: '0.5rem' }}>
+                {[10, 20, 25, 30].map(pct => (
+                  <button
+                    key={pct}
+                    type="button"
+                    onClick={() => setDownPaymentPercent(pct)}
+                    style={{
+                      background: downPaymentPercent === pct ? 'var(--gold-gradient)' : 'rgba(16, 38, 72, 0.7)',
+                      color: downPaymentPercent === pct ? '#071324' : '#cbd5e1',
+                      border: '1px solid rgba(197, 155, 39, 0.3)',
+                      borderRadius: '6px',
+                      padding: '3px 10px',
+                      fontSize: '0.75rem',
+                      fontWeight: '600',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    {pct}%
+                  </button>
+                ))}
               </div>
             </div>
 
@@ -129,22 +161,44 @@ export default function EmiCalculator({ onOpenEmailDossier }) {
                 type="range"
                 min="7.0"
                 max="12.0"
-                step="0.1"
+                step="0.05"
                 value={interestRate}
                 onChange={(e) => setInterestRate(Number(e.target.value))}
                 style={sliderStyle}
               />
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.72rem', color: '#94a3b8', marginTop: '0.25rem' }}>
-                <span>7.0%</span>
-                <span>12.0%</span>
+              {/* Partner Banks Benchmark Bar */}
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(110px, 1fr))', gap: '0.4rem', marginTop: '0.6rem' }}>
+                {bankOptions.map(b => (
+                  <button
+                    key={b.name}
+                    type="button"
+                    onClick={() => setInterestRate(b.rate)}
+                    style={{
+                      background: interestRate === b.rate ? 'rgba(197, 155, 39, 0.25)' : 'rgba(7, 19, 36, 0.7)',
+                      border: interestRate === b.rate ? '1px solid var(--gold-400)' : '1px solid rgba(255, 255, 255, 0.08)',
+                      borderRadius: '8px',
+                      padding: '4px 6px',
+                      textAlign: 'left',
+                      cursor: 'pointer',
+                      transition: 'all 0.2s ease'
+                    }}
+                  >
+                    <div style={{ fontSize: '0.72rem', color: interestRate === b.rate ? '#fae7a5' : '#e2e8f0', fontWeight: '600' }}>
+                      {b.name}
+                    </div>
+                    <div style={{ fontSize: '0.68rem', color: '#94a3b8' }}>
+                      {b.rate}% p.a.
+                    </div>
+                  </button>
+                ))}
               </div>
             </div>
 
             {/* Slider 4: Loan Tenure */}
-            <div style={{ marginBottom: '1rem' }}>
+            <div style={{ marginBottom: '0.5rem' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
                 <span style={calcLabelStyle}>Loan Tenure</span>
-                <span style={calcValueStyle}>{tenureYears} Years</span>
+                <span style={calcValueStyle}>{tenureYears} Years ({tenureYears * 12} Mos)</span>
               </div>
               <input
                 type="range"
@@ -155,57 +209,111 @@ export default function EmiCalculator({ onOpenEmailDossier }) {
                 onChange={(e) => setTenureYears(Number(e.target.value))}
                 style={sliderStyle}
               />
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.72rem', color: '#94a3b8', marginTop: '0.25rem' }}>
-                <span>5 Years</span>
-                <span>30 Years</span>
+              <div style={{ display: 'flex', gap: '0.5rem', marginTop: '0.5rem' }}>
+                {[10, 15, 20, 25, 30].map(yrs => (
+                  <button
+                    key={yrs}
+                    type="button"
+                    onClick={() => setTenureYears(yrs)}
+                    style={{
+                      background: tenureYears === yrs ? 'var(--gold-gradient)' : 'rgba(16, 38, 72, 0.7)',
+                      color: tenureYears === yrs ? '#071324' : '#cbd5e1',
+                      border: '1px solid rgba(197, 155, 39, 0.3)',
+                      borderRadius: '6px',
+                      padding: '3px 10px',
+                      fontSize: '0.75rem',
+                      fontWeight: '600',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    {yrs} Yrs
+                  </button>
+                ))}
               </div>
             </div>
 
           </div>
 
-          {/* Right: Results Display Card */}
+          {/* Right: Results Display Card with Interactive Donut Chart */}
           <div className="luxury-card-gold" style={{ padding: '2.2rem' }}>
             
-            <div style={{ fontSize: '0.85rem', color: '#cbd5e1', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '0.35rem' }}>
-              Estimated Monthly EMI
-            </div>
-
-            <div style={{
-              fontSize: 'clamp(2.4rem, 5vw, 3.4rem)',
-              fontWeight: '800',
-              color: '#fae7a5',
-              fontFamily: 'var(--font-serif)',
-              lineHeight: 1.1,
-              marginBottom: '1.75rem'
-            }}>
-              ₹ {calculation.monthlyEmi.toLocaleString('en-IN')}
-              <span style={{ fontSize: '0.95rem', color: '#cbd5e1', fontWeight: '400', marginLeft: '0.35rem' }}>/ month</span>
-            </div>
-
-            {/* Visual Progress Bar */}
-            <div style={{ marginBottom: '1.5rem' }}>
-              <div style={{
-                height: '10px',
-                borderRadius: '5px',
-                background: '#1e293b',
-                display: 'flex',
-                overflow: 'hidden',
-                marginBottom: '0.6rem'
-              }}>
-                <div style={{ width: `${calculation.principalPercent}%`, background: 'var(--gold-gradient)' }} />
-                <div style={{ width: `${calculation.interestPercent}%`, background: '#3b82f6' }} />
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '1rem', marginBottom: '1.5rem' }}>
+              <div>
+                <div style={{ fontSize: '0.85rem', color: '#cbd5e1', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '0.35rem' }}>
+                  Estimated Monthly EMI
+                </div>
+                <div style={{
+                  fontSize: 'clamp(2.2rem, 4.5vw, 3.2rem)',
+                  fontWeight: '800',
+                  color: '#fae7a5',
+                  fontFamily: 'var(--font-serif)',
+                  lineHeight: 1.1
+                }}>
+                  ₹ {calculation.monthlyEmi.toLocaleString('en-IN')}
+                  <span style={{ fontSize: '0.9rem', color: '#cbd5e1', fontWeight: '400', marginLeft: '0.35rem' }}>/ month</span>
+                </div>
               </div>
 
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.82rem' }}>
-                <span style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', color: '#fae7a5' }}>
-                  <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#edd06f' }} />
-                  Principal Loan: {calculation.principalPercent}%
-                </span>
-                <span style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', color: '#93c5fd' }}>
-                  <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#3b82f6' }} />
-                  Interest Payable: {calculation.interestPercent}%
-                </span>
+              {/* Dynamic SVG Donut Chart */}
+              <div style={{ position: 'relative', width: '90px', height: '90px', flexShrink: 0 }}>
+                <svg width="90" height="90" viewBox="0 0 140 140">
+                  {/* Background Track */}
+                  <circle
+                    cx="70"
+                    cy="70"
+                    r={radius}
+                    stroke="#1e293b"
+                    strokeWidth="14"
+                    fill="transparent"
+                  />
+                  {/* Interest Stroke (Blue) */}
+                  <circle
+                    cx="70"
+                    cy="70"
+                    r={radius}
+                    stroke="#38bdf8"
+                    strokeWidth="14"
+                    strokeDasharray={`${circumference} ${circumference}`}
+                    fill="transparent"
+                    className="donut-circle"
+                  />
+                  {/* Principal Stroke (Gold) */}
+                  <circle
+                    cx="70"
+                    cy="70"
+                    r={radius}
+                    stroke="#edd06f"
+                    strokeWidth="14"
+                    strokeDasharray={`${principalStroke} ${circumference}`}
+                    fill="transparent"
+                    className="donut-circle"
+                  />
+                </svg>
+                <div style={{
+                  position: 'absolute',
+                  inset: 0,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: '0.75rem',
+                  fontWeight: '700',
+                  color: '#ffffff'
+                }}>
+                  {calculation.principalPercent}% P
+                </div>
               </div>
+            </div>
+
+            {/* Visual Legend */}
+            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.82rem', marginBottom: '1.25rem' }}>
+              <span style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', color: '#fae7a5' }}>
+                <span style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#edd06f' }} />
+                Principal Loan: {calculation.principalPercent}%
+              </span>
+              <span style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', color: '#38bdf8' }}>
+                <span style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#38bdf8' }} />
+                Interest: {calculation.interestPercent}%
+              </span>
             </div>
 
             {/* Summary Metrics Table */}
@@ -229,7 +337,7 @@ export default function EmiCalculator({ onOpenEmailDossier }) {
               </div>
 
               <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.95rem' }}>
-                <span style={{ color: '#cbd5e1' }}>Total Repayment (P + I):</span>
+                <span style={{ color: '#cbd5e1' }}>Total Repayment (Principal + Interest):</span>
                 <span style={{ color: '#ffffff', fontWeight: '700' }}>{formatINR(calculation.totalPayment)}</span>
               </div>
             </div>
@@ -239,7 +347,13 @@ export default function EmiCalculator({ onOpenEmailDossier }) {
               onClick={() => onOpenEmailDossier({
                 title: `Loan Assistance for ${formatINR(propertyPrice)} Property`,
                 price: `EMI: ₹ ${calculation.monthlyEmi.toLocaleString('en-IN')}/mo`,
-                location: "Sunny Enclave, Sector 125, Mohali"
+                location: "Sunny Enclave, Sector 125, Mohali",
+                highlights: [
+                  `Selected Rate: ${interestRate}% p.a.`,
+                  `Tenure: ${tenureYears} Years`,
+                  `Down Payment: ${formatINR(calculation.downPayment)} (${downPaymentPercent}%)`,
+                  `Estimated Loan: ${formatINR(calculation.loanAmount)}`
+                ]
               })}
               className="btn btn-gold"
               style={{ width: '100%', padding: '0.85rem' }}
